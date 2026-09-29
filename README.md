@@ -1,211 +1,114 @@
 # 📩 SMS Spam Classifier
 
-A machine learning web application that detects whether an SMS message is **Spam** or **Not Spam** using Natural Language Processing (NLP) and Naive Bayes classification.
+A machine learning web app that classifies an SMS message as **Spam** or **Not Spam** using NLP preprocessing, TF-IDF features and a Multinomial Naive Bayes model.
 
-## 📋 Quick Navigation
-- [Features](#-features)
-- [Installation](#-installation)
-- [Usage](#-usage)
-- [Troubleshooting](#-troubleshooting)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Acknowledgments](#-acknowledgments)
-
----
+<!-- Add a screenshot: ![Demo](demo.png) -->
+<!-- Add your live link: **Live demo:** https://your-app.streamlit.app -->
 
 ## ✨ Features
 
-- **Real-time Classification**: Instant spam detection with confidence scores
-- **Interactive Interface**: Clean, responsive Streamlit web app
-- **Example Messages**: Quick test with pre-loaded spam and ham examples
-- **Detailed Analysis**: View preprocessed text and model probabilities
-- **Adjustable Sensitivity**: Customizable spam threshold (0.15 - 0.75)
-- **Model Insights**: Visualize detected spam indicators
+- **Real-time classification** with a spam probability and confidence score
+- **Adjustable sensitivity:** spam threshold slider (0.15 to 0.75)
+- **Detailed analysis:** view the preprocessed text and model probabilities
+- **Example messages:** one-click spam and ham samples for quick testing
+- **Spam indicators:** shows the words that pushed a message toward spam
 
-### Example Spam Messages Detected:
-- 📱 Financial scams ("loan approved", "cash", "verification")
-- 🎯 Prize scams ("Congratulations! You've won...")
-- 🏦 Phishing attempts
-- 📊 Promotional offers
+## 🛠️ Tech Stack
 
----
+| Area | Tools |
+|---|---|
+| Language | Python |
+| Web app | Streamlit |
+| ML | Scikit-learn (TF-IDF, Multinomial Naive Bayes) |
+| NLP | NLTK (tokenization, stopword removal, Porter stemming) |
+| Data | NumPy, Pandas |
 
-## 🛠️ Technologies Used
+## ⚙️ How It Works
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| Python | 3.8+ | Programming language |
-| Streamlit | 1.8.0 | Web application framework |
-| Scikit-learn | 0.24.1 | Machine learning |
-| NLTK | 3.6+ | Natural Language Processing |
-| NumPy | 1.21+ | Numerical operations |
+1. **Preprocess:** lowercase, tokenize, remove stopwords and punctuation, apply Porter stemming.
+2. **Vectorize:** convert the cleaned text to TF-IDF features.
+3. **Classify:** a Multinomial Naive Bayes model returns the spam probability.
+4. **Decide:** the message is flagged as spam if the probability is above the threshold (default 0.25, adjustable from 0.15 to 0.75 in the sidebar).
 
-### Machine Learning Components
-- **Vectorizer**: TF-IDF (Term Frequency-Inverse Document Frequency)
-- **Model**: Multinomial Naive Bayes
-- **Preprocessing**: Tokenization, Stopword removal, Stemming (Porter)
+## 📊 Model Performance
 
----
+Trained on the [SMS Spam Collection Dataset](https://archive.ics.uci.edu/dataset/228/sms+spam+collection): **5,574 messages** (747 spam, 4,827 ham).
 
-## 📦 Installation
+| Metric (spam class) | Score |
+|---|---|
+| Accuracy | 98.2% |
+| Precision | 96.3% |
+| F1-score | 91.7% |
 
-### Prerequisites
-- Python 3.8 or higher
-- pip package manager
+The dataset is imbalanced (about 13% spam), so precision and F1 matter more than accuracy alone.
 
-### Step 1: Clone the Repository
+### Known Limitations
 
-git clone https://github.com/yourusername/sms-spam-classifier.git
-cd sms-spam-classifier
-Step 2: Create Virtual Environment (Recommended)
-bash
-# Windows
+- The model can miss prize-style scams that use unusual wording, so lowering the threshold in the sidebar catches more spam at the cost of more false positives.
+- It is trained on a small, older English dataset and may not reflect modern spam.
+
+## 🚀 Getting Started
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/ksaisravan/sms_spam_classifier.git
+cd sms_spam_classifier
+
+# 2. (Optional) create a virtual environment
 python -m venv venv
-venv\Scripts\activate
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # Mac/Linux
 
-# Mac/Linux
-python3 -m venv venv
-source venv/bin/activate
-Step 3: Install Dependencies
-bash
+# 3. Install dependencies
 pip install -r requirements.txt
-Step 4: Download NLTK Data
-bash
-python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords')"
-Step 5: Place Model Files
-Download model.pkl and vectorizer.pkl from the releases page and place them in the project root directory.
 
-🚀 Usage
-Run the Application
-bash
+# 4. Download NLTK data
+python -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab'); nltk.download('stopwords')"
+
+# 5. Run the app
 streamlit run app.py
-Using the Interface
-Enter a Message: Type or paste an SMS in the text area
+```
 
-Use Examples: Click example buttons for quick testing
+The trained files `model.pkl` and `vectorizer.pkl` are included in the repository, so no extra download is needed.
 
-Click Predict: The model will classify the message
+## 📁 Project Structure
 
-View Results: See spam probability and confidence score
-
-Example Outputs
-text
-Input: "a loan for $950 is approved for you..."
-Output: 🚨 SPAM DETECTED! (35.5% confidence)
-
-Input: "Hey, are we still meeting for lunch tomorrow?"
-Output: ✅ Not Spam (56.7% confidence)
-
-Input: "CONGRATULATIONS! You've won $1,000,000!"
-Output: ✅ Not Spam (5.1% confidence)  # Model needs improvement
-📊 Model Performance
-Dataset
-Source: SMS Spam Collection Dataset
-
-Total Messages: 5,574
-
-Spam: 747 (13.4%)
-
-Ham: 4,827 (86.6%)
-
-Performance Metrics
-Metric	Score
-Accuracy	98.2%
-Precision (Spam)	96.3%
-Recall (Spam)	87.5%
-F1-Score (Spam)	91.7%
-Confusion Matrix
-text
-              Predicted
-              Spam    Ham
-Actual Spam   653     94
-Actual Ham    35     4792
-Important Spam Indicators
-Words that strongly indicate spam:
-
-loan, cash, approved, verification
-
-free, win, winner, prize
-
-claim, urgent, guaranteed
-
-congratulations, selected, exclusive
-
-offer, limited, click, visit
-
-📁 Project Structure
-text
-sms-spam-classifier/
-├── app.py              # Streamlit web application
-├── model.pkl           # Trained Naive Bayes model
-├── vectorizer.pkl      # TF-IDF vectorizer
+```
+sms_spam_classifier/
+├── app.py              # Streamlit web app
+├── model.pkl           # Trained Multinomial Naive Bayes model
+├── vectorizer.pkl      # Fitted TF-IDF vectorizer
 ├── requirements.txt    # Python dependencies
-├── README.md          # Project documentation
-└── .gitignore         # Git ignore file
-🔧 Troubleshooting
-Common Issues & Solutions
-1. Model Files Not Found
-text
-Error: Model files not found
-Solution: Ensure model.pkl and vectorizer.pkl are in the project root.
+├── LICENSE
+└── README.md
+```
 
-2. NLTK Data Missing
-text
-LookupError: Resource punkt not found
-Solution: Run NLTK download:
+## 🔧 Troubleshooting
 
-python
-import nltk
-nltk.download('punkt')
-nltk.download('stopwords')
-3. Low Spam Detection
-Solution: Adjust the spam threshold in app.py:
+| Problem | Fix |
+|---|---|
+| `Model files not found` | Make sure `model.pkl` and `vectorizer.pkl` are in the project root |
+| `LookupError: Resource punkt not found` | Run the NLTK download command from step 4 |
+| Spam is being missed | Lower the spam threshold in the app sidebar |
+| Too many false alarms | Raise the spam threshold |
 
-python
-SPAM_THRESHOLD = 0.25  # Lower = more sensitive to spam
-Default: 0.50 (balanced)
+## 🔮 Future Improvements
 
-Sensitive: 0.25 (catches more spam)
+- Try Logistic Regression or an ensemble and compare results
+- Add cross-validation and a full classification report
+- Handle class imbalance (for example, class weights or resampling)
+- Deploy on Streamlit Community Cloud
 
-Conservative: 0.75 (fewer false positives)
+## 👤 Author
 
-4. Memory Error
-Solution: Reduce max_features in vectorizer:
+**Killamsetty Sai Sravan**
+[GitHub](https://github.com/ksaisravan) · [LinkedIn](https://linkedin.com/in/saisravan-killamsetty-6642a3290)
 
-python
-vectorizer = TfidfVectorizer(max_features=3000)
-🤝 Contributing
-Contributions are welcome! Please follow these steps:
+## 📄 License
 
-Fork the repository
+Licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
-Create a feature branch (git checkout -b feature/improvement)
+## 🙏 Acknowledgments
 
-Commit changes (git commit -m 'Add improvement')
-
-Push to branch (git push origin feature/improvement)
-
-Open a Pull Request
-
-Development Guidelines
-Follow PEP 8 style guide
-
-Write unit tests for new features
-
-Update documentation
-
-Maintain backward compatibility
-
-📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-🙏 Acknowledgments
-Dataset: SMS Spam Collection Dataset
-
-NLTK: For Natural Language Processing tools
-
-Streamlit: For the web application framework
-
-Scikit-learn: For machine learning algorithms
-
-Open Source Community: For all the amazing tools and libraries
+- SMS Spam Collection Dataset (UCI Machine Learning Repository)
+- NLTK, Scikit-learn and Streamlit
