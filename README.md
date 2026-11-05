@@ -1,3 +1,4 @@
+```markdown
 # 📩 SMS Spam Classifier
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://smsspamclassifier-q8inyensj3iqge7yjgbvto.streamlit.app/)
@@ -60,19 +61,98 @@ Trained on the **SMS Spam Collection Dataset**: 5,574 messages (747 spam, 4,827 
 ```bash
 git clone [https://github.com/ksaisravan/sms_spam_classifier.git](https://github.com/ksaisravan/sms_spam_classifier.git)
 cd sms_spam_classifier
-2. Set up virtual environment (Optional)Bashpython -m venv venv
+
+```
+
+### 2. Set up virtual environment (Optional)
+
+```bash
+python -m venv venv
 # Windows:
 venv\Scripts\activate
 # Mac/Linux:
 # source venv/bin/activate
-3. Install dependenciesBashpip install -r requirements.txt
-4. Download NLTK dataBashpython -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab'); nltk.download('stopwords')"
-5. Run the web app locallyBashstreamlit run app.py
-The pre-trained artifacts model.pkl and vectorizer.pkl are bundled in the repository, so no additional training step is required.📁 Project StructurePlaintextsms_spam_classifier/
+
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+
+```
+
+### 4. Download NLTK data
+
+```bash
+python -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab'); nltk.download('stopwords')"
+
+```
+
+### 5. Run the web app locally
+
+```bash
+streamlit run app.py
+
+```
+
+*The pre-trained artifacts `model.pkl` and `vectorizer.pkl` are bundled in the repository, so no additional training step is required.*
+
+---
+
+## 📁 Project Structure
+
+```text
+sms_spam_classifier/
 ├── app.py              # Streamlit web app
 ├── model.pkl           # Trained Multinomial Naive Bayes model
 ├── vectorizer.pkl      # Fitted TF-IDF vectorizer
 ├── requirements.txt    # Python dependencies
 ├── LICENSE
 └── README.md
-🔧 TroubleshootingProblemFixModel files not foundEnsure model.pkl and vectorizer.pkl remain in the root directory.LookupError: Resource punkt not foundRe-run the NLTK download command from Step 4.Spam missedLower the spam threshold slider in the sidebar.Too many false alarmsIncrease the spam threshold slider in the sidebar.🔮 Future ImprovementsTest performance against Logistic Regression and Support Vector Classifier (SVC) models.Implement automated cross-validation pipelines.Explore advanced class re-balancing techniques (SMOTE / custom class weights).👤 AuthorKillamsetty Sai SravanGitHub📄 LicenseLicensed under the MIT License.🙏 AcknowledgmentsSMS Spam Collection Dataset (UCI Machine Learning Repository)NLTK, Scikit-learn, and Streamlit teams
+
+```
+
+---
+
+## 🔧 Troubleshooting
+
+| Problem | Fix |
+| --- | --- |
+| **Model files not found** | Ensure `model.pkl` and `vectorizer.pkl` remain in the root directory. |
+| **LookupError: Resource punkt not found** | Re-run the NLTK download command from Step 4. |
+| **Spam missed** | Lower the spam threshold slider in the sidebar. |
+| **Too many false alarms** | Increase the spam threshold slider in the sidebar. |
+
+---
+
+## 🔮 Future Improvements
+
+* Test performance against Logistic Regression and Support Vector Classifier (SVC) models.
+* Implement automated cross-validation pipelines.
+* Explore advanced class re-balancing techniques (SMOTE / custom class weights).
+
+---
+
+## 👤 Author
+
+**Killamsetty Sai Sravan**
+
+[GitHub](https://www.google.com/search?q=https://github.com/ksaisravan)
+
+---
+
+## 📄 License
+
+Licensed under the [MIT License](https://www.google.com/search?q=LICENSE).
+
+---
+
+## 🙏 Acknowledgments
+
+* SMS Spam Collection Dataset (UCI Machine Learning Repository)
+* NLTK, Scikit-learn, and Streamlit teams
+
+```
+
+```
